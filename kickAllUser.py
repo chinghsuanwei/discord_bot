@@ -1,10 +1,11 @@
 import discord
 from discord.ext.commands import Bot
 
+#reference from https://stackoverflow.com/questions/68233213/discord-py-kick-all-members-of-server
+
 intents = discord.Intents.default()
 intents.members = True
 
-#command start with prefix !
 bot = Bot(command_prefix="!", intents=intents)
 
 @bot.command()
@@ -19,19 +20,27 @@ async def kick_all(ctx):
     await ctx.send('Started') # Start
 
     members = ctx.guild.members      # This is list of members
-    print(members)
-    #members.remove(ctx.me)           # a user can't kick you'r self so remove bot
-    #print(members)
+    members.remove(ctx.me)           # a user can't kick you'r self so remove bot
+       
 
     for member in members:           # creating a loop
-        print(member.id)
-        # Kick
+        try:                         # a bot is limited and limit is Error
+            print(member.name)
+            #TODO
+            if member.name != "your_name": # Check member is not you
+                # Kick
+                await member.kick(reason="See ya!")
+                
 
+            else:
+                await ctx.send(f"Failed to kick {member}.")
+                # This is an log for user.
 
+        except Exception as err: # bot has not permission
+            await ctx.send(f"Failed to kick {member}.")
+            # This is an log for user.
+            continue # Next user
 
+#TODO
 #get your token in the bot page
 bot.run('your_token')
-
-
-
-

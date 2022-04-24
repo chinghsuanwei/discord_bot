@@ -1,5 +1,7 @@
 import discord
 from discord.ext.commands import Bot
+from discord.ext import commands
+from discord.ext.commands.core import command
 
 #reference from https://stackoverflow.com/questions/68233213/discord-py-kick-all-members-of-server
 
@@ -12,7 +14,8 @@ bot = Bot(command_prefix="!", intents=intents)
 async def hello(ctx):
     await ctx.send("Hello")
     
-@bot.command()    
+@bot.command()
+@commands.has_role("your_role") #TODO specify the role can execute this command
 async def kick_all(ctx):
     await ctx.send('Wait A Second...') # I am alive
 
@@ -41,6 +44,6 @@ async def kick_all(ctx):
             # This is an log for user.
             continue # Next user
 
-#TODO
+#TODO specify your token
 #get your token in the bot page
 bot.run('your_token')
